@@ -1,58 +1,50 @@
 # zensolt.com
 
-Marketing site for [Zensolt](https://zensolt.com): a single-page experience built with **Next.js 15 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS v4**.
+Single-page marketing site for **Zensolt Consultants** (web, mobile, cloud, and AI/ML technology services).
 
-## Requirements
+## Stack
 
-- Node.js 20+ (LTS recommended)
-- npm 10+
+|           |                                                                         |
+| --------- | ----------------------------------------------------------------------- |
+| Framework | **Next.js 16** (App Router; Turbopack in dev)                           |
+| UI        | **React 19**, **TypeScript**                                            |
+| Styling   | **Custom CSS** in `app/globals.css` (no Tailwind)                       |
+| Fonts     | **Geist** and **Geist Mono** via `next/font/google` in `app/layout.tsx` |
 
-## Setup
-
-```bash
-npm install
-```
-
-## Development
+## Commands
 
 ```bash
-npm run dev
-```
-
-The app is served at [http://localhost:3000](http://localhost:3000) by default.
-
-## Production
-
-```bash
+npm run dev    # http://localhost:3000
 npm run build
 npm run start
+npm run lint
 ```
-
-## Type checking
-
-```bash
-npm run typecheck
-```
-
-## Environment variables
-
-Create a `.env.local` file when you need the browser to call an API on another origin (for example a Nest app during local dev):
-
-| Variable                   | Description                                                               |
-| -------------------------- | ------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_BASE_URL` | API origin (e.g. `http://localhost:3001`). Omit for same-origin requests. |
-
-The contact form posts to `POST {NEXT_PUBLIC_API_BASE_URL}/api/contact` (see `src/lib/api.ts` and `src/components/home.tsx`).
 
 ## Project layout
 
-- `src/app/` — App Router: `layout.tsx`, `page.tsx`, `globals.css`
-- `src/components/` — React components (main landing in `home.tsx`, layout in `layout/`, and only the shadcn `ui/*` files that are used on the page)
-- `src/lib/` — Shared utilities
-- `public/` — Static assets (images, `favicon.svg`, etc.) served from `/`
+| Path                   | Role                                                                                        |
+| ---------------------- | ------------------------------------------------------------------------------------------- |
+| `app/`                 | `layout.tsx`, `page.tsx`, `globals.css`, SEO (`sitemap.ts`, `robots.ts`), OG/Twitter images |
+| `components/layout/`   | `Header`, `Footer`                                                                          |
+| `components/sections/` | Hero, TrustStrip, About, Services, AIML, sections, etc.                                     |
+| `components/ui/`       | `Icon`, `ZenLogo`, `CaseModal`                                                              |
+| `lib/data.ts`          | Services, tech, industries, process, case studies, site contact                             |
+| `lib/site.ts`          | `SITE_URL` (see env below)                                                                  |
+| `lib/og-image.tsx`     | Shared 1200×630 art for Open Graph / Twitter                                                |
 
-## Styling
+Imports use the `@/*` path alias (`tsconfig.json`).
 
-Tailwind is wired through PostCSS (`postcss.config.mjs`) and `src/app/globals.css`. **Inter** and **Space Grotesk** are loaded with `next/font` in `src/app/layout.tsx` (no render-blocking font `@import` in CSS).
+## Configuration
 
-If your editor shows squiggles on Tailwind v4 at-rules such as `@theme` or `@plugin`, the repo includes `.vscode/settings.json` to relax built-in CSS linting for those directives.
+- **`NEXT_PUBLIC_SITE_URL`** — Canonical site URL for metadata, sitemap, and robots. Defaults to `https://zensolt.com` if unset.
+- Contact form: client-side validation and success UI; wire an API or form service when you want submissions delivered.
+
+Analytics: `@vercel/analytics` in the root layout.
+
+## Contributing / agents
+
+For structure, anchors, conventions, and design tokens in detail, see **[CLAUDE.md](./CLAUDE.md)** (maintained as the repo’s operational source of truth).
+
+## Deploy
+
+Deploy on [Vercel](https://vercel.com) or any host that supports Next.js 16. See [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying).
