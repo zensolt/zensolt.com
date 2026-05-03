@@ -15,6 +15,7 @@ import Process from "@/components/sections/Process";
 import CaseStudies from "@/components/sections/CaseStudies";
 import Contact from "@/components/sections/Contact";
 import CaseModal from "@/components/ui/CaseModal";
+import SupportChat from "@/components/ui/SupportChat";
 import type { CaseStudy } from "@/lib/data";
 
 export default function Home() {
@@ -81,6 +82,7 @@ export default function Home() {
       </main>
       <Footer />
       <CaseModal data={activeCase} onClose={() => setActiveCase(null)} />
+      <SupportChat />
     </div>
   );
 }

@@ -4,6 +4,8 @@ export type IconName =
   | "chevron-down"
   | "close"
   | "spark"
+  | "support"
+  | "bot"
   | "web"
   | "mobile"
   | "cloud"
@@ -20,7 +22,8 @@ export type IconName =
   | "truck"
   | "mail"
   | "pin"
-  | "phone";
+  | "phone"
+  | "user";
 
 interface IconProps {
   name: IconName;
@@ -72,6 +75,51 @@ export default function Icon({ name, size = 18, className }: IconProps) {
       return (
         <svg viewBox="0 0 24 24" {...s} className={cls}>
           <path d="M12 3v6M12 15v6M3 12h6M15 12h6M5.6 5.6l4.2 4.2M14.2 14.2l4.2 4.2M5.6 18.4l4.2-4.2M14.2 9.8l4.2-4.2" />
+        </svg>
+      );
+    case "support":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22C17.5228 22 22 17.5228 22 12C22 10.1786 21.513 8.47087 20.6622 7"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            ></path>
+          </g>
+        </svg>
+      );
+    case "bot":
+      return (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <circle cx="12" cy="5" r="2"></circle> <path d="M12 7v4"></path>
+            <line x1="8" y1="16" x2="8" y2="16"></line>
+            <line x1="16" y1="16" x2="16" y2="16"></line>
+          </g>
         </svg>
       );
     case "web":
@@ -189,6 +237,13 @@ export default function Icon({ name, size = 18, className }: IconProps) {
       return (
         <svg viewBox="0 0 24 24" {...s} className={cls}>
           <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.8 2z" />
+        </svg>
+      );
+    case "user":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <circle cx="12" cy="8.5" r="3.5" />
+          <path d="M5 20c1.2-4 4.4-6 7-6s5.8 2 7 6" />
         </svg>
       );
     default:

@@ -241,13 +241,11 @@ export const CASES: CaseStudy[] = [
   },
 ];
 
-/** Site contact — single source for footer, forms, and schema. */
 export const SITE_CONTACT = {
   email: "contact@zensolt.com",
-  phone: "+91 94350 00000",
-  /** Full line for location display */
+  phone: "+91-7905038674",
   locationLine: "Shillong, Meghalaya, India",
-  /** Optional public profile URLs (empty string = link to #contact until set) */
+
   social: {
     linkedin: "",
     github: "",

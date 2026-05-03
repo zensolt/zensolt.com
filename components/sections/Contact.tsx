@@ -130,6 +130,22 @@ export default function Contact() {
     {}
   );
   const [submitted, setSubmitted] = useState(false);
+  const [thanksFirstName, setThanksFirstName] = useState<string>("");
+
+  /** BFCache and some navigations restore the full JS heap; clear stale form state. */
+  useEffect(() => {
+    const reset = () => {
+      setData(empty);
+      setErrs({});
+      setSubmitted(false);
+      setThanksFirstName("");
+    };
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) reset();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   const set = <K extends keyof FormState>(k: K, v: FormState[K]) => {
     setData((d) => ({ ...d, [k]: v }));
@@ -137,12 +153,12 @@ export default function Contact() {
 
   const validate = () => {
     const e: Partial<Record<keyof FormState, string>> = {};
-    if (!data.name.trim()) e.name = "Required";
-    if (!data.email.trim()) e.email = "Required";
+    if (!data.name.trim()) e.name = "Please enter your name";
+    if (!data.email.trim()) e.email = "Please enter your email";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
-      e.email = "Enter a valid email";
+      e.email = "Please enter a valid email";
     if (!data.message.trim() || data.message.trim().length < 10) {
-      e.message = "Tell us a little more (10+ chars)";
+      e.message = "Please tell us a little more (10+ chars)";
     }
     setErrs(e);
     return Object.keys(e).length === 0;
@@ -150,7 +166,29 @@ export default function Contact() {
 
   const submit = (ev: React.FormEvent) => {
     ev.preventDefault();
-    if (validate()) setSubmitted(true);
+    if (!validate()) return;
+
+    const { name, email, company, service, budget, message } = data;
+    const first = name.trim().split(/\s+/)[0] || name.trim();
+    setThanksFirstName(first);
+
+    const to = SITE_CONTACT.email;
+    const subject = `New project inquiry from ${name}`;
+    const body = `Name: ${name}
+Email: ${email}
+Company: ${company.trim() || "Not provided"}
+Service of interest: ${service || "Not selected"}
+Budget range: ${budget || "Not selected"}
+
+Project details:
+${message}`;
+
+    window.location.href = `mailto:${encodeURIComponent(
+      to
+    )}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setData(empty);
+    setErrs({});
+    setSubmitted(true);
   };
 
   if (submitted) {
@@ -168,18 +206,25 @@ export default function Contact() {
             <div className="check">
               <Icon name="check" size={26} />
             </div>
-            <h3>Thanks, {data.name.split(" ")[0]} — we got it.</h3>
+            <h3>Thanks, {thanksFirstName} — one more step.</h3>
             <p>
-              We&apos;ll reply at{" "}
-              <strong style={{ color: "var(--ink)" }}>{data.email}</strong>{" "}
-              within one business day with next steps and a short discovery call
-              slot.
+              Your email app should open with a draft to{" "}
+              <strong style={{ color: "var(--logo-accent-bright)" }}>
+                {SITE_CONTACT.email}
+              </strong>
+              <br />
+              Send that message to deliver your inquiry.
+            </p>
+            <p style={{ color: "var(--ink-3)", fontSize: 14, margin: 0 }}>
+              If no window opened, copy your details and email us at{" "}
+              {SITE_CONTACT.email}
             </p>
             <button
               type="button"
               className="btn btn-ghost"
               onClick={() => {
                 setSubmitted(false);
+                setThanksFirstName("");
                 setData(empty);
                 setErrs({});
               }}
@@ -207,7 +252,8 @@ export default function Contact() {
             }}
           >
             Tell us about the problem you&apos;re solving. We&apos;ll come back
-            with a discovery call slot, a rough plan, and a clear next step.
+            to you within 1-2 business days with a Discovery Call slot, a rough
+            plan, and a clear next step.
           </p>
           <ul className="contact-list">
             <li>
@@ -216,7 +262,11 @@ export default function Contact() {
               </span>
               <div>
                 <div className="ttl">Email</div>
-                <div className="val">{SITE_CONTACT.email}</div>
+                <div className="val">
+                  <a href={`mailto:${SITE_CONTACT.email}`}>
+                    {SITE_CONTACT.email}
+                  </a>
+                </div>
               </div>
             </li>
             <li>
@@ -225,7 +275,9 @@ export default function Contact() {
               </span>
               <div>
                 <div className="ttl">Phone</div>
-                <div className="val">{SITE_CONTACT.phone}</div>
+                <div className="val">
+                  <a href={`tel:${SITE_CONTACT.phone}`}>{SITE_CONTACT.phone}</a>
+                </div>
               </div>
             </li>
             <li>
@@ -239,29 +291,31 @@ export default function Contact() {
             </li>
           </ul>
         </div>
-        <form className="form" onSubmit={submit} noValidate>
+        <form className="form" onSubmit={submit} noValidate autoComplete="off">
           <div className="row2">
             <div>
-              <label htmlFor="contact-name">Your name</label>
+              <label htmlFor="contact-name">Your name*</label>
               <input
                 id="contact-name"
                 className={errs.name ? "err" : ""}
                 value={data.name}
                 onChange={(e) => set("name", e.target.value)}
-                placeholder="Jane Doe"
-                autoComplete="name"
+                placeholder="John Doe"
+                name="zensolt-inquiry-name"
+                autoComplete="off"
               />
               {errs.name && <div className="err-msg">{errs.name}</div>}
             </div>
             <div>
-              <label htmlFor="contact-email">Email</label>
+              <label htmlFor="contact-email">Email*</label>
               <input
                 id="contact-email"
                 className={errs.email ? "err" : ""}
                 value={data.email}
                 onChange={(e) => set("email", e.target.value)}
                 placeholder="you@company.com"
-                autoComplete="email"
+                name="zensolt-inquiry-email"
+                autoComplete="off"
                 type="email"
               />
               {errs.email && <div className="err-msg">{errs.email}</div>}
@@ -274,7 +328,9 @@ export default function Contact() {
                 id="contact-company"
                 value={data.company}
                 onChange={(e) => set("company", e.target.value)}
-                placeholder="XYZ Pte. (Optional)"
+                placeholder="XYZ Pvt. Ltd."
+                name="zensolt-inquiry-company"
+                autoComplete="off"
               />
             </div>
             <FormSelect
@@ -295,21 +351,20 @@ export default function Contact() {
             placeholder="Select a budget range"
           />
           <div>
-            <label htmlFor="contact-message">Tell us about your project</label>
+            <label htmlFor="contact-message">Tell us about your project*</label>
             <textarea
               id="contact-message"
               className={errs.message ? "err" : ""}
               value={data.message}
               onChange={(e) => set("message", e.target.value)}
               placeholder="What our team should know about your project?"
+              name="zensolt-inquiry-message"
+              autoComplete="off"
             />
             {errs.message && <div className="err-msg">{errs.message}</div>}
           </div>
-          <div className="submit-row">
-            <span className="submit-meta">
-              *We typically reply within 1-2 business days.
-            </span>
-            <button className="btn btn-primary" type="submit">
+          <div className="submit-row" style={{ justifyContent: "end" }}>
+            <button className="btn btn-primary w-full" type="submit">
               Send message <Icon name="arrow" size={14} />
             </button>
           </div>

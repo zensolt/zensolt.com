@@ -68,7 +68,7 @@ export default function Header({ onCTA }: { onCTA: () => void }) {
           <span className="zen-logo-mark">
             <ZenLogo />
           </span>
-          <span>Zensolt</span>
+          <span>Zensolt Consultants</span>
         </a>
         <nav className="zen-nav" aria-label="Primary">
           {NAV_LINKS.map(([label, href]) => {
