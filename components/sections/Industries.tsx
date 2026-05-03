@@ -1,6 +1,5 @@
 import { INDUSTRIES } from "@/lib/data";
 import Icon from "@/components/ui/Icon";
-import type { IconName } from "@/components/ui/Icon";
 
 export default function Industries() {
   return (
@@ -17,7 +16,7 @@ export default function Industries() {
         {INDUSTRIES.map((i) => (
           <div className="ind-card" key={i.name}>
             <div className="ind-icon">
-              <Icon name={i.icon as IconName} size={28} />
+              <Icon name={i.icon} size={28} />
             </div>
             <h4>{i.name}</h4>
             <p>{i.desc}</p>

@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/ui/Icon";
+
 export const SERVICES = [
   {
     num: "01",
@@ -143,7 +145,7 @@ export const INDUSTRIES = [
   {
     name: "Travel",
     desc: "Bookings, itineraries, flight tracking, and customer support that needs to be available 24/7.",
-    icon: "plane",
+    icon: "luggage",
   },
   {
     name: "Insurance",
@@ -170,7 +172,11 @@ export const INDUSTRIES = [
     desc: "Healthcare systems, patient portals, and telemedicine platforms that need to be fast, reliable, and scalable.",
     icon: "healthcare",
   },
-] as const;
+] as const satisfies ReadonlyArray<{
+  name: string;
+  desc: string;
+  icon: IconName;
+}>;
 
 export const PROCESS = [
   {

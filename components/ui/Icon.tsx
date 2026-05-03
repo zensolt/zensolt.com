@@ -20,6 +20,12 @@ export type IconName =
   | "health"
   | "cart"
   | "truck"
+  | "luggage"
+  | "insurance"
+  | "energy"
+  | "government"
+  | "security"
+  | "healthcare"
   | "mail"
   | "pin"
   | "phone"
@@ -186,7 +192,12 @@ export default function Icon({ name, size = 18, className }: IconProps) {
     case "fin":
       return (
         <svg viewBox="0 0 24 24" {...s} className={cls}>
-          <path d="M3 7h18M3 17h18M7 7v10M17 7v10" />
+          <g transform="scale(0.6) translate(6.4 6.4)">
+            <path d="M27.1 21 25.3 18 6.7 18 4.9 21" />
+            <path d="M24.2 16 22.4 13 9.6 13 7.8 16" />
+            <path d="M21.2 11l-4.4-7.5c-0.4-0.6-1.4-0.6-1.7 0L10.8 11H21.2z" />
+            <path d="M30.9 27.5L28.2 23H3.8l-2.6 4.5c-0.2 0.3-0.2 0.7 0 1S1.6 29 2 29h28c0.4 0 0.7-0.2 0.9-0.5S31 27.8 30.9 27.5z" />
+          </g>
         </svg>
       );
     case "edu":
@@ -217,6 +228,49 @@ export default function Icon({ name, size = 18, className }: IconProps) {
           <path d="M2 7h12v10H2zM14 10h5l3 3v4h-8z" />
           <circle cx="6" cy="18" r="2" />
           <circle cx="18" cy="18" r="2" />
+        </svg>
+      );
+    case "luggage":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <path d="M9.5 9V7.5a2.5 2.5 0 0 1 5 0V9" />
+          <rect x="5" y="9" width="14" height="12.5" rx="2" />
+          <path d="M9 14h6" />
+        </svg>
+      );
+    case "insurance":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+          <path d="M9 12h6M9 16h6M9 8.5h3" />
+        </svg>
+      );
+    case "energy":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      );
+    case "government":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <path d="M12 4l9 5v2H3V9l9-5zM5 11v9M9 11v9M15 11v9M19 11v9M3 20h18" />
+        </svg>
+      );
+    case "security":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <rect x="6" y="10" width="12" height="10" rx="2" />
+          <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+          <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "healthcare":
+      return (
+        <svg viewBox="0 0 24 24" {...s} className={cls}>
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          <rect x="5" y="6" width="14" height="14" rx="2" />
+          <path d="M12 10v6M9 13h6" />
         </svg>
       );
     case "mail":

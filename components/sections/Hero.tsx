@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Icon from "@/components/ui/Icon";
 
 const HERO_TAGLINES = [
@@ -28,26 +23,20 @@ const DELETE_MS = 32;
 const PAUSE_AT_FULL_MS = 2400;
 const GAP_BETWEEN_PHRASES_MS = 450;
 
-function subscribeReducedMotion(onChange: () => void) {
-  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  mq.addEventListener("change", onChange);
-  return () => mq.removeEventListener("change", onChange);
-}
-
-function getReducedMotionSnapshot() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-function getReducedMotionServerSnapshot() {
-  return false;
+function useReducedMotionAfterMount(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return reduced;
 }
 
 function HeroRotatingTagline() {
-  const reduced = useSyncExternalStore(
-    subscribeReducedMotion,
-    getReducedMotionSnapshot,
-    getReducedMotionServerSnapshot
-  );
+  const reduced = useReducedMotionAfterMount();
   const [i, setI] = useState(0);
 
   useEffect(() => {
@@ -73,11 +62,7 @@ function HeroRotatingTagline() {
 }
 
 function HeroTypingGradient() {
-  const reduced = useSyncExternalStore(
-    subscribeReducedMotion,
-    getReducedMotionSnapshot,
-    getReducedMotionServerSnapshot
-  );
+  const reduced = useReducedMotionAfterMount();
   const [typed, setTyped] = useState<string>(HERO_HEADLINE_SUFFIXES[0]);
 
   useLayoutEffect(() => {
